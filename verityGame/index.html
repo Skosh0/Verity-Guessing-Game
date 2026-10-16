@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verity Guessing Game</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; background-color: white;">
+    <h1 style="text-align: center;">Verity Guessing Game</h1>
+    <hr>
+
+    <div id="explanation">
+      <p id="explanation">Press the buttons to make a guess. You have infinite attempts! <br> Green = Correct, Red = Incorrect Verity. </p>
+    </div>
+
+    <div id="guessContainer" style="text-align: center;">
+    </div>
+
+    <div class="center-container">
+    <div class="putsquarehere" style="justify-content: center;">
+      <style>
+        .square {
+        height: 300px;
+        width: 300px;
+        box-sizing: border-box;
+        background-color: white;
+        border: solid 5px;
+        border-radius: 10px;
+        position: fixed;
+        padding: 0%;
+        text-align: center;
+        }
+        .center-container {
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 0%;
+        width: 100%;
+        }
+      </style>
+    </div>
+    </div>
+
+    
+    <br>
+
+    <div id="buttonContainer" style="text-align: center;">
+    <button onclick="addVerity()" id="verity" style="width: 100px; height: 100px; border-radius: 5px; background-image: url('verity.png'); background-repeat: no-repeat; background-size: 80%; background-position: center;" alt="verity"></button>
+    <button onclick="addLovity()" id="lovity" style="width: 100px; height: 100px; border-radius: 5px; background-image: url('lovity.png'); background-repeat: no-repeat; background-size: 80%; background-position: center;" alt="lovity"></button>
+    <button onclick="addFalsity()" id="falsity" style="width: 100px; height: 100px; border-radius: 5px; background-image: url('falsity.png'); background-repeat: no-repeat; background-size: 80%; background-position: center;" alt="falsity"></button>
+    <button onclick="addCruelty()" id="cruelty" style="width: 100px; height: 100px; border-radius: 5px; background-image: url('cruelty.png'); background-repeat: no-repeat; background-size: 80%; background-position: center;" alt="cruelty"></button>
+    <button onclick="addCuriosity()" id="curiosity" style="width: 100px; height: 100px; border-radius: 5px; background-image: url('curiosity.png'); background-repeat: no-repeat; background-size: 80%; background-position: center;" alt="curiosity"></button>
+    <br>
+    <button onclick="submitGuess()" style="width: 400px; height: 50px; border-radius: 10px; margin-top: 5px;">Submit Guess</button>
+    <button onclick="backspace()" style="width:100px; height: 50px; border-radius: 10px; margin-top: 5px;">Backspace</button></button>
+    <br>
+    <button onclick="location.reload()" style="margin-top: 5px;">Restart Game</button>
+    
+    </div>
+
+</body>
+
+<script>
+const names = [null, "lovity", "falsity", "cruelty", "verity", "curiosity"]
+let answer = []
+let guess = []
+let grid = []
+let num
+const maxNum = names.length - 1
+const guessContainer = document.getElementById("guessContainer")
+const answerContainer = document.getElementById("answerContainer")
+
+for (let i = 0; i < 6; i++) {
+  randNum();
+  for (let i = 0; i < num; i++) {
+  if (answer.length < 16) {
+    createAnswer();
+    createGrid();
+  }
+  }
+}
+
+function createAnswer() {
+  answer.push(names[num])
+  //answerContainer.innerHTML += "<img src='" + names[num] + ".png' style='width: 50px; height: 50px; margin: 5px;'>";
+}
+
+function createGrid() {
+  grid.push(guessContainer.innerHTML += "<button disabled id=" + grid.length + " style='width: 62px; height: 62px; margin: -1px; border-radius: 0px; background-image: url(); background-repeat: no-repeat; background-size: 90%; background-position: center; alt='grid square'></button>");
+}
+
+function randNum() {
+  num = Math.floor(Math.random() * maxNum) + 1;
+}
+
+addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    submitGuess();
+  }
+});
+
+addEventListener("keydown", function(event) {
+  if (event.key === "Backspace") {
+    backspace()
+  }
+}) 
+
+function backspace() {
+  if (currentDigit > 0)  {
+    currentDigit --
+    guess.pop()
+    document.getElementById(currentDigit).style.backgroundImage = null
+  }
+
+}
+
+function submitGuess() {
+  let timesChecked = 0
+  currentDigit = 0
+  answer.forEach(element => {
+    if (String(guess[timesChecked]) === String(answer[timesChecked])) {
+      document.getElementById(timesChecked).style.backgroundColor = "green" 
+    //} else if (String(answer).includes(String(guess[timesChecked]))) {
+      //document.getElementById(timesChecked).style.backgroundColor = "yellow"
+    } else {
+      document.getElementById(timesChecked).style.backgroundColor = "red"
+    }
+    timesChecked ++
+  });
+
+  if (String(guess) === String(answer)) {
+  alert("you win lol")
+  } else {
+    grid.forEach(element => {
+      document.getElementById(currentDigit).id = "pastButton"
+      currentDigit ++
+    });
+    grid.length = 0
+    currentDigit = 0
+    guess.length = 0
+    document.getElementById("guessContainer").innerHTML += '<br>'
+    for (let i = 0; i < answer.length; i++) {
+      createGrid();
+    }
+  }
+}
+
+let currentDigit = 0;
+
+function addVerity() {
+  guess.push(names[4])
+  document.getElementById(currentDigit).style.backgroundImage = "url('verity.png')";
+  currentDigit += 1
+}
+function addLovity() {
+  guess.push(names[1])
+  document.getElementById(currentDigit).style.backgroundImage = "url('lovity.png')";
+  currentDigit += 1
+}
+function addFalsity() {
+  guess.push(names[2])
+  document.getElementById(currentDigit).style.backgroundImage = "url('falsity.png')";
+  currentDigit += 1
+}
+function addCruelty() {
+  guess.push(names[3])
+  document.getElementById(currentDigit).style.backgroundImage = "url('cruelty.png')";
+  currentDigit += 1
+}
+function addCuriosity() {
+  guess.push(names[5])
+  document.getElementById(currentDigit).style.backgroundImage = "url('curiosity.png')";
+  currentDigit += 1
+}
+
+</script>
+
+</html>
